@@ -25,37 +25,22 @@ public class CurrencyGui extends VerticalLayout {
         tamaGrid.addColumn(Rate::getAsk).setHeader("Ask");
         tamaGrid.addColumn(Rate::getBid).setHeader("Bid");
         tamaGrid.addColumn(Rate::getAskDiff).setHeader("AskDiff");
-        tamaGrid.addColumn(Rate::getBidDiff).setHeader("BidDiff");
-        // Label x = new Label();
+        tamaGrid.addColumn(Rate::getBidDiff).setHeader("BidDiff");   
         add(datePicker);
-
-
-        //  add(x);
-        // x.add("dd");
         datePicker.addValueChangeListener(
-                event -> {
-                  //remove(tamaGrid);
-
-                    //  tamaGrid.setItems(currencyController.getCurrencyRates(datePicker.getValue()).getRates());
-                    // tamaGrid.removeColumnByKey("Additional Properties");
-                    // tamaGrid.removeColumnByKey("No");
-                    List<Rate> x = currencyController.getCurrencyRates(datePicker.getValue()).getRates();
+                event -> {               
+                    List<Rate> rateList = currencyController.getCurrencyRates(datePicker.getValue()).getRates();
                     Double elementBeforeBid = currencyController.getCurrencyRates(datePicker.getValue()).getRates().get(0).getBid();
                     Double elementBeforeAsk = currencyController.getCurrencyRates(datePicker.getValue()).getRates().get(0).getAsk();
-                    for (Rate element : x) {
+                    for (Rate element : rateList) {
                         element.setAskDiff(BigDecimal.valueOf(element.getAsk()).subtract(BigDecimal.valueOf(elementBeforeAsk)));
                         element.setBidDiff(BigDecimal.valueOf(element.getBid()).subtract(BigDecimal.valueOf(elementBeforeBid)));
                         elementBeforeAsk = element.getAsk();
                         elementBeforeBid = element.getBid();
-                    }
-                    //tamaGrid.removeAllColumns();
-
-                    tamaGrid.setItems(x);
-
-
+                    }                  
+                    tamaGrid.setItems(rateList);
                     add(tamaGrid);
-                    //Rate z  = currencyController.getCurrencyRates(datePicker.getValue()).getRates().get(1);
-                    //   x.add(String.valueOf(z.getAsk()));
+                    
                 });
 
     }
